@@ -28,11 +28,19 @@ Design:
 |---------------------------------------------------|
 """
 
+
+from fbs_runtime.application_context.PyQt5 import ApplicationContext
+
 import subprocess
-from PyQt5.QtWidgets import QApplication, QWidget, QHBoxLayout, QVBoxLayout, QPushButton
+from PyQt5.QtWidgets import QWidget, QHBoxLayout, QVBoxLayout, QPushButton
 from PyQt5.QtWidgets import QLineEdit, QLabel
 
-app = QApplication([])  # instantiate a Qt App
+import sys
+
+
+appctxt = ApplicationContext()       # 1. Instantiate ApplicationContext
+
+# app = QApplication([])  # instantiate a Qt App
 #
 # create a QWidget container widget to hold the Buttons for executing scripts
 #
@@ -57,14 +65,15 @@ input_layout = QVBoxLayout()
 
 ###     LineEdit for reading Static IP setscript filepath
 read_static_script_filepath   = QLineEdit()
-static_script_filepath = "/home/fubar/Documents/PythonProjects/PyQt5/SwitchIPmode/helloWorld.py"
+
+static_script_filepath = r"C:\Users\fubar\Scripts\setStaticIP.py"
 read_static_script_filepath.setText(static_script_filepath)
 static_script_filepath_Label = QLabel("Static Script filepath:\nPress Enter to read")
 static_script_filepath_Label.setBuddy(read_static_script_filepath)
 
 ###     LineEdit for reading Static IP setscript filepath
 read_dynamic_script_filepath   = QLineEdit()
-dynamic_script_filepath = "/home/fubar/Documents/PythonProjects/PyQt5/SwitchIPmode/byeWorld.py"
+dynamic_script_filepath = r"C:\Users\fubar\Scripts\setDynamicIP.py"
 read_dynamic_script_filepath.setText(dynamic_script_filepath)
 dynamic_script_filepath_Label = QLabel("Dynamic Script filepath:\nPress Enter to read")
 dynamic_script_filepath_Label.setBuddy(read_dynamic_script_filepath)
@@ -140,8 +149,9 @@ dynamicButton.clicked.connect(onDynamicButtonClicked)
 #
 window.setLayout(layout)                # set the layout for the window
 window.show()                           # draw the window
-app.exec_()                             # give control of the window to Qt till the user closes it!
 
 # hand over the control to the Qt App
 #
-app.exec_()
+
+exit_code = appctxt.app.exec_()      # 2. Invoke appctxt.app.exec_()
+sys.exit(exit_code)
